@@ -1,26 +1,34 @@
 import axios from "axios";
 
 class ApiClient {
+    static getFullIP(ip: string) {
+        return `192.168.1.${ip}`;
+    }
 
-    getBaseUrl() {
+    static getBaseUrl() {
         const mainIP = localStorage.getItem('mainIP');
         if (!mainIP) {
             throw new Error('Main IP is not set');
         }
-        return `192.168.1.${mainIP}:8080`;
+        return `http://${this.getFullIP(mainIP)}:8080`;
     }
 
-    async createRoom(roomName: string, roomIP: string) {
+    static async createRoom(roomName: string, roomIP: string) {
         const mainUrl = `${this.getBaseUrl()}/api/add`;
-        const payload = {
+        const payload = [{
             roomName: roomName,
-            roomIP: roomIP
-        }
-        const response = await axios.post(mainUrl, payload);
+            roomIP: this.getFullIP(roomIP)
+        }];
+        const response = await axios.post(mainUrl, payload, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        });
         return response.data;
     }
 
-    async startRoom(roomName: string, bullets: number) {
+    static async startRoom(roomName: string, bullets: number) {
         const mainUrl = `${this.getBaseUrl()}/api/route`;
         const payload = {
             roomName: roomName,
@@ -44,11 +52,16 @@ class ApiClient {
                 }
             }
         }
-        const response = await axios.post(mainUrl, payload);
-        return response.data;
+        try {
+            const response = await axios.post(mainUrl, payload);
+            return response.data;
+        } catch (error) {
+            console.error('Error starting room:', error);
+            throw new Error('Failed to start room');
+        }
     }
 
-    async stopRoom(roomName: string, playerId: number) {
+    static async stopRoom(roomName: string, playerId: number) {
         const mainUrl = `${this.getBaseUrl()}/api/route`;
         const payload = {
             roomName: roomName,
@@ -64,7 +77,7 @@ class ApiClient {
         return response.data;
     }
 
-    async increaseBullet(roomName: string, playerId: number, bulletsAmount: number = 20) {
+    static async increaseBullet(roomName: string, playerId: number, bulletsAmount: number = 20) {
         const mainUrl = `${this.getBaseUrl()}/api/route`;
         const payload = {
             roomName: roomName,
