@@ -5,6 +5,8 @@ import { theme } from "./Theme"
 import { ThemeProvider } from "@mui/material/styles"
 import { CssBaseline } from "@mui/material"
 import MainIPField from "./components/MainIPField"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
     return (
@@ -22,7 +24,9 @@ const App = () => {
                 </Box>
                 <CssBaseline />
             </ThemeProvider>
+            <ToastContainer />
         </Box >
+
     )
 }
 

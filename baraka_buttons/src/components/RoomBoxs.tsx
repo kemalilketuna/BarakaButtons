@@ -2,6 +2,8 @@ import { useState } from "react"
 import { Box, Typography, TextField, TextFieldProps, Button } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { styled } from "@mui/material/styles";
+import ApiClient from "../api/apiClient";
+import { toast } from 'react-toastify';
 
 const StyledBox = styled(Box)({
     width: '300px',
@@ -63,13 +65,18 @@ const AddRoomBox = () => {
         setIsClicked(!isClicked);
     }
 
-
-    const createRoom = () => {
+    const createRoom = async () => {
         if (roomName === '' || roomIP === '') {
             return;
         }
-        setIsClicked(false);
-        console.log(roomName, roomIP);
+
+        try {
+            await ApiClient.createRoom(roomName, roomIP);
+            setIsClicked(false);
+        } catch (error) {
+            toast.error("Error creating room: " + (error as Error).message);
+        }
+
     }
 
     return (
