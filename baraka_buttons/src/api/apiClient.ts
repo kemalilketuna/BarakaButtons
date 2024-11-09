@@ -4,6 +4,9 @@ class ApiClient {
 
     getBaseUrl() {
         const mainIP = localStorage.getItem('mainIP');
+        if (!mainIP) {
+            throw new Error('Main IP is not set');
+        }
         return `192.168.1.${mainIP}:8080`;
     }
 
