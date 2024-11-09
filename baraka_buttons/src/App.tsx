@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material"
-import { AddRoomBox } from "./components/RoomBoxs"
+import { AddRoomBox } from "./components/AddRoomBox"
 import { Spacer } from "./components/Spacer"
 import { theme } from "./Theme"
 import { ThemeProvider } from "@mui/material/styles"

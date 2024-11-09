@@ -1,6 +1,8 @@
 import axios from "axios";
 
 class ApiClient {
+    private static readonly REQUEST_TIMEOUT = 10000; // 10 seconds
+
     static getFullIP(ip: string) {
         return `192.168.1.${ip}`;
     }
@@ -20,6 +22,7 @@ class ApiClient {
             roomIP: this.getFullIP(roomIP)
         }];
         const response = await axios.post(mainUrl, payload, {
+            timeout: this.REQUEST_TIMEOUT,
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*'
@@ -53,7 +56,9 @@ class ApiClient {
             }
         }
         try {
-            const response = await axios.post(mainUrl, payload);
+            const response = await axios.post(mainUrl, payload, {
+                timeout: this.REQUEST_TIMEOUT
+            });
             return response.data;
         } catch (error) {
             console.error('Error starting room:', error);
@@ -73,7 +78,9 @@ class ApiClient {
                 }
             }
         }
-        const response = await axios.post(mainUrl, payload);
+        const response = await axios.post(mainUrl, payload, {
+            timeout: this.REQUEST_TIMEOUT
+        });
         return response.data;
     }
 
@@ -89,7 +96,9 @@ class ApiClient {
                 }
             }
         }
-        const response = await axios.post(mainUrl, payload);
+        const response = await axios.post(mainUrl, payload, {
+            timeout: this.REQUEST_TIMEOUT
+        });
         return response.data;
     }
 }

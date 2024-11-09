@@ -5,6 +5,11 @@ import { styled } from "@mui/material/styles";
 import ApiClient from "../api/apiClient";
 import { toast } from 'react-toastify';
 
+interface Room {
+    name: string;
+    ip: string;
+}
+
 const StyledBox = styled(Box)({
     width: '300px',
     height: '300px',
@@ -61,6 +66,12 @@ const AddRoomBox = () => {
     const [roomName, setRoomName] = useState('');
     const [roomIP, setRoomIP] = useState('');
 
+    const updateLocalStorage = (newRoom: Room) => {
+        const existingRooms = JSON.parse(localStorage.getItem('rooms') || '[]');
+        const updatedRooms = [...existingRooms, newRoom];
+        localStorage.setItem('rooms', JSON.stringify(updatedRooms));
+    };
+
     const toggleClicked = () => {
         setIsClicked(!isClicked);
     }
@@ -72,7 +83,11 @@ const AddRoomBox = () => {
 
         try {
             await ApiClient.createRoom(roomName, roomIP);
+            updateLocalStorage({ name: roomName, ip: roomIP });
             setIsClicked(false);
+            setRoomName('');
+            setRoomIP('');
+            toast.success("Room created successfully");
         } catch (error) {
             toast.error("Error creating room: " + (error as Error).message);
         }
