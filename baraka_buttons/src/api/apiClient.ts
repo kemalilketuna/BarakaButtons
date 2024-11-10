@@ -19,7 +19,7 @@ class ApiClient {
         const mainUrl = `${this.getBaseUrl()}/api/add`;
         const payload = [{
             roomName: roomName,
-            roomIP: this.getFullIP(roomIP)
+            roomIp: this.getFullIP(roomIP)
         }];
         const response = await axios.post(mainUrl, payload, {
             timeout: this.REQUEST_TIMEOUT,

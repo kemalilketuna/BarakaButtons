@@ -12,5 +12,5 @@ export const dashboardSlice = createSlice({
     }
 });
 
-export const { } = dashboardSlice.actions;
+export const { setValue } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

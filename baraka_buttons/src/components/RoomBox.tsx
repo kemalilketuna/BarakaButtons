@@ -34,4 +34,5 @@ const RoomBox = ({ room }: { room: Room }) => {
     );
 }
 
+export { StyledRoomContainer };
 export default RoomBox;
