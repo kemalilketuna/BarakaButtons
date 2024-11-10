@@ -1,5 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
+import { useDispatch } from "react-redux";
+import { setRoom } from "../redux/dashboardSlicer";
 
 interface Room {
     name: string;
@@ -26,8 +28,14 @@ const StyledRoomContainer = styled(Box)({
 });
 
 const RoomBox = ({ room }: { room: Room }) => {
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+        dispatch(setRoom(room));
+    }
+
     return (
-        <StyledRoomContainer>
+        <StyledRoomContainer onClick={handleClick}>
             <Typography variant="h5">Room:</Typography>
             <Typography variant="h5">{room.name}</Typography>
             <Typography variant="h5">IP: {room.ip}</Typography>

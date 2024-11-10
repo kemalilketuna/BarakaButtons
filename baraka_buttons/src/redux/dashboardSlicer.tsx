@@ -1,16 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface Room {
+    name: string;
+    ip: string;
+}
+
 export const dashboardSlice = createSlice({
     name: 'dashboard',
     initialState: {
-        value: "add"
+        room: null
     },
     reducers: {
-        setValue: (state, action) => {
-            state.value = action.payload;
+        setRoom: (state, action) => {
+            state.room = action.payload;
         }
     }
 });
 
-export const { setValue } = dashboardSlice.actions;
+export const { setRoom } = dashboardSlice.actions;
 export default dashboardSlice.reducer;

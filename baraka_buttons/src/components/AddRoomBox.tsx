@@ -2,13 +2,13 @@ import { StyledRoomContainer } from "./RoomBox";
 import { Box, Typography } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch } from "react-redux";
-import { setValue } from "../redux/dashboardSlicer";
+import { setRoom } from "../redux/dashboardSlicer";
 
 const AddRoomBox = () => {
     const dispatch = useDispatch();
 
     const handleClick = () => {
-        dispatch(setValue("add"));
+        dispatch(setRoom(null));
     }
 
     return (
