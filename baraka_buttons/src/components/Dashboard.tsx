@@ -4,13 +4,18 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import RoomController from "./RoomController";
 
+interface Room {
+    roomName: string;
+    roomIp: string;
+}
+
 const Dashboard = () => {
-    const room = useSelector((state: RootState) => state.dashboard.room);
+    const room = useSelector((state: RootState) => state.dashboard.room) as Room | null;
 
     return (
         <Box sx={{ height: '55vh', width: '80vw', borderRadius: '10px', border: '1px solid #fff' }}>
             {room === null && <AddRoomForm />}
-            {room !== null && <RoomController room={room} />}
+            {room !== null && <RoomController key={`${room.roomName}-${room.roomIp}`} room={room} />}
         </Box>
     );
 }
