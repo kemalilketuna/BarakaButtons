@@ -61,7 +61,13 @@ const AddRoomForm = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', gap: '30px' }}>
             <Typography variant="h4">Create Room</Typography>
-            <StyledTextField label="Enter room name" sx={{ width: '80%' }} value={roomName} onChange={(e) => setRoomName(e.target.value)} />
+            <StyledTextField label="Enter room name" sx={{ width: '80%' }} value={roomName}
+                onChange={(e) => {
+                    const value = e.target.value;
+                    if ((/^[a-zA-Z0-9]+$/.test(value) && value.length <= 8) || value === '') {
+                        setRoomName(value);
+                    }
+                }} />
             <StyledTextField label="Enter room IP" sx={{ width: '80%' }} value={roomIP}
                 onChange={(e) => {
                     const value = e.target.value;

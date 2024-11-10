@@ -28,7 +28,8 @@ const StyledRoomContainer = styled(Box)({
 const RoomBox = ({ room }: { room: Room }) => {
     return (
         <StyledRoomContainer>
-            <Typography variant="h5">Room: {room.name}</Typography>
+            <Typography variant="h5">Room:</Typography>
+            <Typography variant="h5">{room.name}</Typography>
             <Typography variant="h5">IP: {room.ip}</Typography>
         </StyledRoomContainer>
     );
