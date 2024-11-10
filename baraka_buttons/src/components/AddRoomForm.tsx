@@ -32,8 +32,13 @@ const AddRoomForm = () => {
 
     const updateLocalStorage = (newRoom: Room) => {
         const existingRooms = JSON.parse(localStorage.getItem('rooms') || '[]');
-        const updatedRooms = [...existingRooms, newRoom];
-        localStorage.setItem('rooms', JSON.stringify(updatedRooms));
+        if (existingRooms.find((room: Room) => room.name === newRoom.name)) {
+            const updatedRooms = existingRooms.map((room: Room) => room.name === newRoom.name ? newRoom : room);
+            localStorage.setItem('rooms', JSON.stringify(updatedRooms));
+        } else {
+            const updatedRooms = [...existingRooms, newRoom];
+            localStorage.setItem('rooms', JSON.stringify(updatedRooms));
+        }
     };
 
     const createRoom = async () => {
