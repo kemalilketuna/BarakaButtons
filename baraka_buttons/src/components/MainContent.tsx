@@ -31,7 +31,6 @@ const MainContent = () => {
     useEffect(() => {
         const getRooms = async () => {
             const rooms = await ApiClient.getRooms();
-            console.log(rooms[0]);
             dispatch(setRooms(rooms));
         }
         getRooms();
