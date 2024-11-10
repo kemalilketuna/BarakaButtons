@@ -36,7 +36,25 @@ class ApiClient {
         return response.data;
     }
 
-    static async startRoom(roomName: string, player1Name: string, player1Surname: string, bullet1: number, player2Name: string, player2Surname: string, bullet2: number) {
+    static async startGame(roomName: string, playerId: number, playerName: string, playerSurname: string, bullet: number) {
+        const mainUrl = `${this.getBaseUrl()}/api/route`;
+        const payload = {
+            roomName: roomName,
+            body: {
+                command: 0,
+                payload: {
+                    players: [{ id: playerId, name: playerName, surname: playerSurname, bullet: bullet }],
+                    game: 0
+                }
+            }
+        }
+        const response = await axios.post(mainUrl, payload, {
+            timeout: this.REQUEST_TIMEOUT
+        });
+        return response.data;
+    }
+
+    static async startDuello(roomName: string, player1Name: string, player1Surname: string, bullet1: number, player2Name: string, player2Surname: string, bullet2: number) {
         const mainUrl = `${this.getBaseUrl()}/api/route`;
         const payload = {
             roomName: roomName,

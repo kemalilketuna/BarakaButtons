@@ -27,12 +27,24 @@ const StartGameWidget = ({ room }: { room: Room }) => {
     const [firstPlayerSurname, setFirstPlayerSurname] = useState('');
     const [secondPlayerSurname, setSecondPlayerSurname] = useState('');
 
-    const startGameRequest = async () => {
+    const startGameRequest = async (playerId: number) => {
         try {
-            await ApiClient.startRoom(room.roomName, firstPlayerName, firstPlayerSurname, firstPlayerBullet, secondPlayerName, secondPlayerSurname, secondPlayerBullet);
+            if (playerId === 0) {
+                await ApiClient.startGame(room.roomName, playerId, firstPlayerName, firstPlayerSurname, firstPlayerBullet);
+            } else {
+                await ApiClient.startGame(room.roomName, playerId, secondPlayerName, secondPlayerSurname, secondPlayerBullet);
+            }
             toast.success('Game started successfully');
         } catch (error) {
-            console.error(error);
+            toast.error('Failed to start game');
+        }
+    }
+
+    const startDuelloRequest = async () => {
+        try {
+            await ApiClient.startDuello(room.roomName, firstPlayerName, firstPlayerSurname, firstPlayerBullet, secondPlayerName, secondPlayerSurname, secondPlayerBullet);
+            toast.success('Game started successfully');
+        } catch (error) {
             toast.error('Failed to start game');
         }
     }
@@ -68,9 +80,9 @@ const StartGameWidget = ({ room }: { room: Room }) => {
                 />
             </Box>
             <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
-                <Button variant="contained" sx={{ width: '30%' }} color="primary" onClick={startGameRequest}>Start Player1</Button>
-                <Button variant="contained" sx={{ width: '30%' }} color="primary" onClick={startGameRequest}>Start Player2</Button>
-                <Button variant="contained" sx={{ width: '30%' }} color="primary" onClick={startGameRequest}>Start Duello</Button>
+                <Button variant="contained" sx={{ width: '30%' }} color="primary" onClick={() => startGameRequest(0)}>Start Player1</Button>
+                <Button variant="contained" sx={{ width: '30%' }} color="primary" onClick={() => startGameRequest(1)}>Start Player2</Button>
+                <Button variant="contained" sx={{ width: '30%' }} color="primary" onClick={startDuelloRequest}>Start Duello</Button>
             </Box>
         </Box>
     );
@@ -101,7 +113,6 @@ const IncreaseBulletWidget = ({ room }: { room: Room }) => {
             setFirstPlayerBullet(0);
             setSecondPlayerBullet(0);
         } catch (error) {
-            console.error(error);
             toast.error('Failed to increase bullet');
         }
     }
