@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
 interface Room {
-    name: string;
-    ip: string;
+    roomName: string;
+    roomIp: string;
 }
 
 const StyledRoomContainer = styled(Box)({
@@ -32,6 +32,7 @@ const StyledRoomContainer = styled(Box)({
 const RoomBox = ({ room }: { room: Room }) => {
     const dispatch = useDispatch();
     const selectedRoom = useSelector((state: RootState) => state.dashboard.room);
+    const lastPartOfIp = room.roomIp.split('.')[3];
 
     const handleClick = () => {
         dispatch(setRoom(room));
@@ -45,8 +46,8 @@ const RoomBox = ({ room }: { room: Room }) => {
             }}
         >
             <Typography variant="h5">Room:</Typography>
-            <Typography variant="h5">{room.name}</Typography>
-            <Typography variant="h5">IP: {room.ip}</Typography>
+            <Typography variant="h5">{room.roomName}</Typography>
+            <Typography variant="h5">IP: {lastPartOfIp}</Typography>
         </StyledRoomContainer>
     );
 }

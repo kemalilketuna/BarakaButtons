@@ -1,5 +1,10 @@
 import axios from "axios";
 
+interface Room {
+    roomName: string;
+    roomIp: string;
+}
+
 class ApiClient {
     private static readonly REQUEST_TIMEOUT = 10000; // 10 seconds
 
@@ -97,6 +102,14 @@ class ApiClient {
             }
         }
         const response = await axios.post(mainUrl, payload, {
+            timeout: this.REQUEST_TIMEOUT
+        });
+        return response.data;
+    }
+
+    static async getRooms(): Promise<Room[]> {
+        const mainUrl = `${this.getBaseUrl()}/api/rooms`;
+        const response = await axios.get(mainUrl, {
             timeout: this.REQUEST_TIMEOUT
         });
         return response.data;

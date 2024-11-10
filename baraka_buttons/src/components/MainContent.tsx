@@ -1,17 +1,41 @@
+import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import Spacer from "./Spacer";
 import AddRoomBox from "./AddRoomBox";
 import RoomBox from "./RoomBox";
 import Dashboard from "./Dashboard";
 import MainIPField from "./MainIPField";
+import { RootState } from "../redux/store";
+import { useSelector } from "react-redux";
+import ApiClient from "../api/apiClient";
+import { setRooms } from "../redux/dashboardSlicer";
+import { useDispatch } from "react-redux";
 
 interface Room {
-    name: string;
-    ip: string;
+    roomName: string;
+    roomIp: string;
+}
+
+const RoomButtonGroup = () => {
+    const rooms = useSelector((state: RootState) => state.dashboard.rooms);
+    return <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '2vw' }}>
+        <AddRoomBox />
+        {rooms.map((room: Room) => (
+            <RoomBox key={room.roomName} room={room} />
+        ))}
+    </Box>
 }
 
 const MainContent = () => {
-    const rooms = JSON.parse(localStorage.getItem('rooms') || '[]');
+    const dispatch = useDispatch();
+    useEffect(() => {
+        const getRooms = async () => {
+            const rooms = await ApiClient.getRooms();
+            console.log(rooms[0]);
+            dispatch(setRooms(rooms));
+        }
+        getRooms();
+    }, []);
 
     return (
         <Box sx={{ padding: '5vw', paddingTop: '2vw', paddingBottom: '2vw', width: '100vw', height: '100vh' }}>
@@ -26,13 +50,7 @@ const MainContent = () => {
 
             <Spacer height="2vw" />
 
-            {/* Room Buttons */}
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '2vw' }}>
-                <AddRoomBox />
-                {rooms.map((room: Room) => (
-                    <RoomBox key={room.name} room={room} />
-                ))}
-            </Box>
+            <RoomButtonGroup />
 
             <Spacer height="2vw" />
 

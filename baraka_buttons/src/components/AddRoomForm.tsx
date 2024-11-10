@@ -2,11 +2,8 @@ import { useState } from "react";
 import { Box, Typography, TextField, TextFieldProps, Button } from "@mui/material";
 import ApiClient from "../api/apiClient"
 import { toast } from "react-toastify";
-
-interface Room {
-    name: string;
-    ip: string;
-}
+import { useDispatch } from "react-redux";
+import { setRooms } from "../redux/dashboardSlicer";
 
 const StyledTextField = (props: TextFieldProps) => {
     const defaultSx = {
@@ -29,17 +26,7 @@ const StyledTextField = (props: TextFieldProps) => {
 const AddRoomForm = () => {
     const [roomName, setRoomName] = useState('');
     const [roomIP, setRoomIP] = useState('');
-
-    const updateLocalStorage = (newRoom: Room) => {
-        const existingRooms = JSON.parse(localStorage.getItem('rooms') || '[]');
-        if (existingRooms.find((room: Room) => room.name === newRoom.name)) {
-            const updatedRooms = existingRooms.map((room: Room) => room.name === newRoom.name ? newRoom : room);
-            localStorage.setItem('rooms', JSON.stringify(updatedRooms));
-        } else {
-            const updatedRooms = [...existingRooms, newRoom];
-            localStorage.setItem('rooms', JSON.stringify(updatedRooms));
-        }
-    };
+    const dispatch = useDispatch();
 
     const createRoom = async () => {
         if (roomName === '' || roomIP === '') {
@@ -48,10 +35,10 @@ const AddRoomForm = () => {
 
         try {
             await ApiClient.createRoom(roomName, roomIP);
-            updateLocalStorage({ name: roomName, ip: roomIP });
             setRoomName('');
             setRoomIP('');
             toast.success("Room created successfully");
+            dispatch(setRooms(await ApiClient.getRooms()));
         } catch (error) {
             toast.error("Error creating room: " + (error as Error).message);
         }
