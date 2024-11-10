@@ -64,7 +64,7 @@ const AddRoomForm = () => {
             <StyledTextField label="Enter room name" sx={{ width: '80%' }} value={roomName}
                 onChange={(e) => {
                     const value = e.target.value;
-                    if ((/^[a-zA-Z0-9]+$/.test(value) && value.length <= 8) || value === '') {
+                    if ((/^[a-zA-Z0-9ğüşıöçĞÜŞİÖÇ]+$/.test(value) && value.length <= 8) || value === '') {
                         setRoomName(value);
                     }
                 }} />
