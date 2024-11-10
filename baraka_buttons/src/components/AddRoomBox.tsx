@@ -11,8 +11,8 @@ interface Room {
 }
 
 const StyledBox = styled(Box)({
-    width: '300px',
-    height: '300px',
+    width: '120px',
+    height: '120px',
     border: '1px solid #ccc',
     borderRadius: '10px',
     display: 'flex',
@@ -27,6 +27,8 @@ const StyledClickableBox = styled(Box)({
     justifyContent: 'center',
     '&:hover': {
         backgroundColor: '#0a0a0a',
+        cursor: 'pointer',
+        transform: 'scale(1.02)'
     },
     height: '100%',
     width: '100%',
@@ -98,8 +100,8 @@ const AddRoomBox = () => {
         <StyledBox>
             {!isClicked ? (
                 <StyledClickableBox onClick={toggleClicked}>
-                    <AddIcon style={{ fontSize: '140px' }} />
-                    <Typography variant="h4">Add Room</Typography>
+                    <AddIcon style={{ fontSize: '50px' }} />
+                    <Typography fontSize="1.5vw">Add Room</Typography>
                 </StyledClickableBox>
             ) : (
                 <StyledFormBox>

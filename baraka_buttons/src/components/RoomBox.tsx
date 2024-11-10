@@ -1,19 +1,36 @@
 import { Box, Typography } from "@mui/material";
+import { styled } from '@mui/material/styles';
 
 interface Room {
     name: string;
     ip: string;
 }
 
+const StyledRoomContainer = styled(Box)({
+    width: '120px',
+    height: '120px',
+    border: '1px solid #ccc',
+    borderRadius: '10px',
+    display: 'flex',
+    alignItems: 'start',
+    justifyContent: 'space-evenly',
+    flexDirection: 'column',
+    padding: '10px',
+    transition: 'all 0.2s ease-in-out',
+    '&:hover': {
+        backgroundColor: '#0a0a0a',
+        cursor: 'pointer',
+        transform: 'scale(1.02)',
+        border: 'none'
+    }
+});
 
 const RoomBox = ({ room }: { room: Room }) => {
     return (
-        <Box sx={{ width: '300px', height: '300px', border: '1px solid #ccc', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
-                <Typography variant="h2">{room.name}</Typography>
-                <Typography variant="h2">{room.ip}</Typography>
-            </Box>
-        </Box>
+        <StyledRoomContainer>
+            <Typography variant="h5">Room: {room.name}</Typography>
+            <Typography variant="h5">IP: {room.ip}</Typography>
+        </StyledRoomContainer>
     );
 }
 
