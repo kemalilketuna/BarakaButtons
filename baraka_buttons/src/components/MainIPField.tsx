@@ -23,7 +23,9 @@ const MainIPField = () => {
                 localStorage.setItem('mainIP', value);
                 setMainIP(value);
             }
-        }} />
+        }}
+        type="number"
+    />
 }
 
 export default MainIPField;

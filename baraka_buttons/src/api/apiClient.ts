@@ -36,7 +36,7 @@ class ApiClient {
         return response.data;
     }
 
-    static async startRoom(roomName: string, bullets: number) {
+    static async startRoom(roomName: string, player1Name: string, player1Surname: string, bullet1: number, player2Name: string, player2Surname: string, bullet2: number) {
         const mainUrl = `${this.getBaseUrl()}/api/route`;
         const payload = {
             roomName: roomName,
@@ -46,14 +46,14 @@ class ApiClient {
                     players: [
                         {
                             id: 0,
-                            name: "player0",
-                            surname: "player0",
-                            bullet: bullets
+                            name: player1Name,
+                            surname: player1Surname,
+                            bullet: bullet1
                         }, {
                             id: 1,
-                            name: "player1",
-                            surname: "player1",
-                            bullet: bullets
+                            name: player2Name,
+                            surname: player2Surname,
+                            bullet: bullet2
                         }
                     ],
                     game: 1
@@ -88,14 +88,17 @@ class ApiClient {
         return response.data;
     }
 
-    static async increaseBullet(roomName: string, playerId: number, bulletsAmount: number = 20) {
+    static async increaseBullet(roomName: string, player1Bullet: number, player2Bullet: number) {
         const mainUrl = `${this.getBaseUrl()}/api/route`;
         const payload = {
             roomName: roomName,
             body: {
                 command: 2,
                 payload: {
-                    players: [{ id: playerId, name: null, surname: null, bullet: bulletsAmount }],
+                    players: [
+                        { id: 0, name: null, surname: null, bullet: player1Bullet },
+                        { id: 1, name: null, surname: null, bullet: player2Bullet }
+                    ],
                     game: null
                 }
             }

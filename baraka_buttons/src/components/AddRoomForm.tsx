@@ -1,27 +1,10 @@
 import { useState } from "react";
-import { Box, Typography, TextField, TextFieldProps, Button } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import ApiClient from "../api/apiClient"
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setRooms } from "../redux/dashboardSlicer";
-
-const StyledTextField = (props: TextFieldProps) => {
-    const defaultSx = {
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'primary.main',
-            },
-            '&:hover fieldset': {
-                borderColor: 'primary.main',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'primary.main',
-            },
-        },
-    };
-
-    return <TextField {...props} sx={{ ...defaultSx, ...props.sx }} />
-}
+import StyledTextField from "./StyledTextField";
 
 const AddRoomForm = () => {
     const [roomName, setRoomName] = useState('');
