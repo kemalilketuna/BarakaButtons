@@ -18,7 +18,7 @@ interface Room {
 
 const RoomButtonGroup = () => {
     const rooms = useSelector((state: RootState) => state.dashboard.rooms);
-    return <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '2vw' }}>
+    return <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '2vw', overflowX: 'auto', scrollbarWidth: 'none' }}>
         <AddRoomBox />
         {rooms.map((room: Room) => (
             <RoomBox key={room.roomName} room={room} />
@@ -46,11 +46,7 @@ const MainContent = () => {
                     <MainIPField />
                 </Box>
             </Box>
-
-            <Spacer height="2vw" />
-
             <RoomButtonGroup />
-
             <Spacer height="2vw" />
 
             {/* Dashboard */}

@@ -15,7 +15,7 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
     color: theme.palette.error.main,
     width: '100%',
     marginLeft: '15px',
-    marginBottom: '15px',
+    marginBottom: '8px',
 }));
 
 
@@ -39,9 +39,9 @@ const StartGameWidget = ({ room }: { room: Room }) => {
 
     return (
         <Box display="flex" flexDirection="column" width="100%" gap="20px" paddingBottom="10px">
-            <Box display="flex" flexDirection="row" width="100%" gap="20px">
-                <StyledTextField label="Player1 Name" value={firstPlayerName} onChange={(e) => setFirstPlayerName(e.target.value)} />
-                <StyledTextField label="Player1 Surname" value={firstPlayerSurname} onChange={(e) => setFirstPlayerSurname(e.target.value)} />
+            <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
+                <StyledTextField label="Player1 Name" sx={{ width: '30%' }} value={firstPlayerName} onChange={(e) => setFirstPlayerName(e.target.value)} />
+                <StyledTextField label="Player1 Surname" sx={{ width: '30%' }} value={firstPlayerSurname} onChange={(e) => setFirstPlayerSurname(e.target.value)} />
                 <StyledTextField
                     label="First Player Bullet"
                     type="number"
@@ -53,9 +53,9 @@ const StartGameWidget = ({ room }: { room: Room }) => {
                     }}
                 />
             </Box>
-            <Box display="flex" flexDirection="row" width="100%" gap="20px">
-                <StyledTextField label="Player2 Name" value={secondPlayerName} onChange={(e) => setSecondPlayerName(e.target.value)} />
-                <StyledTextField label="Player2 Surname" value={secondPlayerSurname} onChange={(e) => setSecondPlayerSurname(e.target.value)} />
+            <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
+                <StyledTextField label="Player2 Name" sx={{ width: '30%' }} value={secondPlayerName} onChange={(e) => setSecondPlayerName(e.target.value)} />
+                <StyledTextField label="Player2 Surname" sx={{ width: '30%' }} value={secondPlayerSurname} onChange={(e) => setSecondPlayerSurname(e.target.value)} />
                 <StyledTextField
                     label="Second Player Bullet"
                     type="number"
@@ -66,7 +66,11 @@ const StartGameWidget = ({ room }: { room: Room }) => {
                         setSecondPlayerBullet(value);
                     }}
                 />
-                <Button variant="contained" color="primary" onClick={startGameRequest}>Start Game</Button>
+            </Box>
+            <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
+                <Button variant="contained" sx={{ width: '30%' }} color="primary" onClick={startGameRequest}>Start Player1</Button>
+                <Button variant="contained" sx={{ width: '30%' }} color="primary" onClick={startGameRequest}>Start Player2</Button>
+                <Button variant="contained" sx={{ width: '30%' }} color="primary" onClick={startGameRequest}>Start Duello</Button>
             </Box>
         </Box>
     );
@@ -74,17 +78,14 @@ const StartGameWidget = ({ room }: { room: Room }) => {
 
 
 const StopGameWidget = ({ room }: { room: Room }) => {
-    const [isPlayerId1Stopped, setIsPlayerId1Stopped] = useState(false);
-    const [isPlayerId2Stopped, setIsPlayerId2Stopped] = useState(false);
-
     const stopGameRequest = async (playerId: number) => {
         await ApiClient.stopRoom(room.roomName, playerId);
         toast.success('Game stopped successfully');
     }
     return (
-        <Box display="flex" flexDirection="row" width="100%" gap="20px" paddingBottom="10px">
-            <Button variant="contained" color="primary" sx={{ width: '50%' }} onClick={() => stopGameRequest(0)}>Stop Player1</Button>
-            <Button variant="contained" color="primary" sx={{ width: '50%' }} onClick={() => stopGameRequest(1)}>Stop Player2</Button>
+        <Box display="flex" flexDirection="row" width="100%" gap="20px" paddingBottom="10px" justifyContent="space-evenly">
+            <Button variant="contained" color="primary" sx={{ width: '40%' }} onClick={() => stopGameRequest(0)}>Stop Player1</Button>
+            <Button variant="contained" color="primary" sx={{ width: '40%' }} onClick={() => stopGameRequest(1)}>Stop Player2</Button>
         </Box>
     );
 }
@@ -106,7 +107,7 @@ const IncreaseBulletWidget = ({ room }: { room: Room }) => {
     }
 
     return (
-        <Box display="flex" flexDirection="row" width="100%" gap="20px">
+        <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
             <StyledTextField
                 label="Player1 Bullet"
                 type="number"
@@ -127,7 +128,7 @@ const IncreaseBulletWidget = ({ room }: { room: Room }) => {
                     setSecondPlayerBullet(value);
                 }}
             />
-            <Button variant="contained" color="primary" sx={{ width: '50%' }} onClick={() => increaseBulletRequest(1)}>Increase Bullet</Button>
+            <Button variant="contained" color="primary" sx={{ width: '30%' }} onClick={increaseBulletRequest}>Increase Bullet</Button>
         </Box>
     );
 }
