@@ -1,6 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Box, Typography } from "@mui/material";
-import Spacer from "./Spacer";
 import AddRoomBox from "./AddRoomBox";
 import RoomBox from "./RoomBox";
 import Dashboard from "./Dashboard";
@@ -18,7 +17,7 @@ interface Room {
 
 const RoomButtonGroup = () => {
     const rooms = useSelector((state: RootState) => state.dashboard.rooms);
-    return <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '2vw', overflowX: 'auto', scrollbarWidth: 'none' }}>
+    return <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '2vw', paddingBottom: '2vw' }}>
         <AddRoomBox />
         {rooms.map((room: Room) => (
             <RoomBox key={room.roomName} room={room} />
@@ -28,16 +27,17 @@ const RoomButtonGroup = () => {
 
 const MainContent = () => {
     const dispatch = useDispatch();
+
     useEffect(() => {
         const getRooms = async () => {
             const rooms = await ApiClient.getRooms();
             dispatch(setRooms(rooms));
         }
         getRooms();
-    }, []);
+    }, [dispatch]);
 
     return (
-        <Box sx={{ padding: '5vw', paddingTop: '0vw', paddingBottom: '2vw', width: '100vw', height: '100vh' }}>
+        <Box sx={{ padding: '5vw', paddingTop: '2vw', paddingBottom: '2vw', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
             {/* Title */}
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
                 <Typography fontSize="4vw">Baraka Buttons</Typography>
@@ -46,10 +46,8 @@ const MainContent = () => {
                 </Box>
             </Box>
             <RoomButtonGroup />
-            <Spacer height="2vw" />
-
             {/* Dashboard */}
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '2vw' }}>
                 <Dashboard />
             </Box>
         </Box >
