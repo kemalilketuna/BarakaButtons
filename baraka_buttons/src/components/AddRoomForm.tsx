@@ -29,7 +29,7 @@ const AddRoomForm = () => {
     }
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', gap: '30px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', minHeight: '390px', gap: '30px' }}>
             <Typography variant="h4">Create Room</Typography>
             <StyledTextField label="Enter room name" sx={{ width: '80%' }} value={roomName}
                 onChange={(e) => {

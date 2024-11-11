@@ -15,7 +15,7 @@ const StyledTextField = (props: TextFieldProps) => {
         },
     };
 
-    return <TextField {...props} sx={{ ...defaultSx, ...props.sx }} />
+    return <TextField {...props} sx={{ ...defaultSx, ...props.sx }} size="small" />
 }
 
 export default StyledTextField;
