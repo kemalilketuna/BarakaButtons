@@ -143,6 +143,15 @@ class ApiClient {
         });
         return response.data;
     }
+
+    static async getRoomStatus(roomName: string): Promise<number[]> {
+        const mainUrl = `${this.getBaseUrl()}/api/route`;
+        const payload = { roomName: roomName, body: { command: 3, payload: {} } };
+        const response = await axios.post(mainUrl, payload, {
+            timeout: this.REQUEST_TIMEOUT
+        });
+        return response.data.bulletCount;
+    }
 }
 
 export default ApiClient;
