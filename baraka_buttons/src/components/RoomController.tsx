@@ -32,7 +32,6 @@ const BulletInput = ({ label, value, onChange, ...props }: BulletInputProps) => 
             const newValue = Math.min(1500, Math.max(0, parseInt(e.target.value) || 0));
             onChange(newValue.toString());
         }}
-        inputProps={{ min: 0, max: 1500 }}
         {...props}
     />
 );
