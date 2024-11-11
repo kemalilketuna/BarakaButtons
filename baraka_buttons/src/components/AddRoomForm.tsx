@@ -3,25 +3,25 @@ import { Box, Typography, Button } from "@mui/material";
 import ApiClient from "../api/apiClient"
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { setRooms } from "../redux/dashboardSlicer";
+import { addRoom } from "../redux/dashboardSlicer";
 import StyledTextField from "./StyledTextField";
 
 const AddRoomForm = () => {
     const [roomName, setRoomName] = useState('');
-    const [roomIP, setRoomIP] = useState('');
+    const [roomIp, setRoomIp] = useState('');
     const dispatch = useDispatch();
 
     const createRoom = async () => {
-        if (roomName === '' || roomIP === '') {
+        if (roomName === '' || roomIp === '') {
             return;
         }
 
         try {
-            await ApiClient.createRoom(roomName, roomIP);
-            setRoomName('');
-            setRoomIP('');
+            await ApiClient.createRoom(roomName, roomIp);
             toast.success("Room created successfully");
-            dispatch(setRooms(await ApiClient.getRooms()));
+            dispatch(addRoom({ roomName: roomName, roomIp: `192.168.1.${roomIp}` }));
+            setRoomName('');
+            setRoomIp('');
         } catch (error) {
             toast.error("Error creating room: " + (error as Error).message);
         }
@@ -38,11 +38,11 @@ const AddRoomForm = () => {
                         setRoomName(value);
                     }
                 }} />
-            <StyledTextField label="Enter room IP" sx={{ width: '80%' }} value={roomIP}
+            <StyledTextField label="Enter room IP" sx={{ width: '80%' }} value={roomIp}
                 onChange={(e) => {
                     const value = e.target.value;
                     if (/^\d{0,3}$/.test(value)) {
-                        setRoomIP(value);
+                        setRoomIp(value);
                     }
                 }} />
             <Button variant="contained" color="primary" onClick={createRoom} size="large" sx={{ width: '80%' }}>Create Room</Button>

@@ -1,11 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import { useDispatch } from "react-redux";
-import { setRoom } from "../redux/dashboardSlicer";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setRoom, deleteRoom } from "../redux/dashboardSlicer";
 import { RootState } from "../redux/store";
 import React from 'react';
 import ApiClient from "../api/apiClient";
+import { toast } from "react-toastify";
 
 interface Room {
     roomName: string;
@@ -44,6 +44,8 @@ const RoomBox = ({ room }: { room: Room }) => {
     const handleMouseDown = () => {
         timerRef.current = setTimeout(() => {
             ApiClient.deleteRoom(room.roomName);
+            toast.success('Room deleted');
+            dispatch(deleteRoom(room));
         }, 3000);
     };
 
