@@ -1,9 +1,10 @@
-import { Box, Button, Typography, TextFieldProps } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import StyledTextField from "./StyledTextField";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import ApiClient from "../api/apiClient";
 import { toast } from "react-toastify";
+import BulletInput from "./BulletKeyboard";
 
 interface Room {
     roomName: string;
@@ -15,31 +16,6 @@ interface PlayerData {
     surname: string;
     bullet: number;
 }
-
-interface BulletInputProps extends Omit<TextFieldProps, 'onChange'> {
-    label: string;
-    value: number;
-    onChange: (value: string) => void;
-}
-
-const BulletInput = ({ label, value, onChange, ...props }: BulletInputProps) => (
-    <StyledTextField
-        label={label}
-        type="number"
-        sx={{ width: '30%' }}
-        value={value}
-        slotProps={{
-            input: {
-                inputMode: 'numeric',
-            }
-        }}
-        onChange={(e) => {
-            const newValue = Math.min(1500, Math.max(0, parseInt(e.target.value) || 0));
-            onChange(newValue.toString());
-        }}
-        {...props}
-    />
-);
 
 const StyledTypography = styled(Typography)(({ theme }) => ({
     fontWeight: 'bold',
