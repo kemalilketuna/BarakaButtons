@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, TextFieldProps } from "@mui/material";
 import StyledTextField from "./StyledTextField";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
@@ -15,6 +15,27 @@ interface PlayerData {
     surname: string;
     bullet: number;
 }
+
+interface BulletInputProps extends Omit<TextFieldProps, 'onChange'> {
+    label: string;
+    value: number;
+    onChange: (value: string) => void;
+}
+
+const BulletInput = ({ label, value, onChange, ...props }: BulletInputProps) => (
+    <StyledTextField
+        label={label}
+        type="number"
+        sx={{ width: '30%' }}
+        value={value}
+        onChange={(e) => {
+            const newValue = Math.min(1500, Math.max(0, parseInt(e.target.value) || 0));
+            onChange(newValue.toString());
+        }}
+        inputProps={{ min: 0, max: 1500 }}
+        {...props}
+    />
+);
 
 const StyledTypography = styled(Typography)(({ theme }) => ({
     fontWeight: 'bold',
@@ -117,23 +138,19 @@ const StartGameWidget = ({ room }: { room: Room }) => {
             <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
                 <StyledTextField label="Player1 Name" sx={{ width: '30%' }} value={player1.name} onChange={(e) => updatePlayerName(0, 'name', e.target.value)} />
                 <StyledTextField label="Player1 Surname" sx={{ width: '30%' }} value={player1.surname} onChange={(e) => updatePlayerSurname(0, 'surname', e.target.value)} />
-                <StyledTextField
+                <BulletInput
                     label="First Player Bullet"
-                    type="number"
-                    sx={{ width: '30%' }}
                     value={player1.bullet}
-                    onChange={(e) => updatePlayerBullet(0, 'bullet', e.target.value)}
+                    onChange={(value) => updatePlayerBullet(0, 'bullet', value)}
                 />
             </Box>
             <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
                 <StyledTextField label="Player2 Name" sx={{ width: '30%' }} value={player2.name} onChange={(e) => updatePlayerName(1, 'name', e.target.value)} />
                 <StyledTextField label="Player2 Surname" sx={{ width: '30%' }} value={player2.surname} onChange={(e) => updatePlayerSurname(1, 'surname', e.target.value)} />
-                <StyledTextField
+                <BulletInput
                     label="Second Player Bullet"
-                    type="number"
-                    sx={{ width: '30%' }}
                     value={player2.bullet}
-                    onChange={(e) => updatePlayerBullet(1, 'bullet', e.target.value)}
+                    onChange={(value) => updatePlayerBullet(1, 'bullet', value)}
                 />
             </Box>
             <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
@@ -175,24 +192,20 @@ const IncreaseBulletWidget = ({ room }: { room: Room }) => {
 
     return (
         <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
-            <StyledTextField
+            <BulletInput
                 label="Player1 Bullet"
-                type="number"
-                sx={{ width: '30%' }}
                 value={firstPlayerBullet}
-                onChange={(e) => {
-                    const value = Math.max(0, parseInt(e.target.value) || 0);
-                    setFirstPlayerBullet(value);
+                onChange={(value) => {
+                    const newValue = Math.max(0, parseInt(value) || 0);
+                    setFirstPlayerBullet(newValue);
                 }}
             />
-            <StyledTextField
+            <BulletInput
                 label="Player2 Bullet"
-                type="number"
-                sx={{ width: '30%' }}
                 value={secondPlayerBullet}
-                onChange={(e) => {
-                    const value = Math.max(0, parseInt(e.target.value) || 0);
-                    setSecondPlayerBullet(value);
+                onChange={(value) => {
+                    const newValue = Math.max(0, parseInt(value) || 0);
+                    setSecondPlayerBullet(newValue);
                 }}
             />
             <Button variant="contained" color="primary" sx={{ width: '30%' }} onClick={increaseBulletRequest}>Increase Bullet</Button>
