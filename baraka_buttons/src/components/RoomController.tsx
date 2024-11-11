@@ -50,7 +50,7 @@ const StartGameWidget = ({ room }: { room: Room }) => {
     }
 
     return (
-        <Box display="flex" flexDirection="column" width="100%" gap="20px" paddingBottom="10px">
+        <Box display="flex" flexDirection="column" width="100%" gap="20px">
             <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
                 <StyledTextField label="Player1 Name" sx={{ width: '30%' }} value={firstPlayerName} onChange={(e) => setFirstPlayerName(e.target.value)} />
                 <StyledTextField label="Player1 Surname" sx={{ width: '30%' }} value={firstPlayerSurname} onChange={(e) => setFirstPlayerSurname(e.target.value)} />

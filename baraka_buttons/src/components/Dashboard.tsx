@@ -13,7 +13,7 @@ const Dashboard = () => {
     const room = useSelector((state: RootState) => state.dashboard.room) as Room | null;
 
     return (
-        <Box sx={{ height: 'fit-content', width: '80vw', borderRadius: '10px', border: '1px solid #fff' }}>
+        <Box sx={{ height: '55vh', minHeight: '390px', width: '80vw', borderRadius: '10px', border: '1px solid #fff' }}>
             {room === null && <AddRoomForm />}
             {room !== null && <RoomController key={`${room.roomName}-${room.roomIp}`} room={room} />}
         </Box>
