@@ -28,6 +28,11 @@ const BulletInput = ({ label, value, onChange, ...props }: BulletInputProps) => 
         type="number"
         sx={{ width: '30%' }}
         value={value}
+        slotProps={{
+            input: {
+                inputMode: 'numeric',
+            }
+        }}
         onChange={(e) => {
             const newValue = Math.min(1500, Math.max(0, parseInt(e.target.value) || 0));
             onChange(newValue.toString());
