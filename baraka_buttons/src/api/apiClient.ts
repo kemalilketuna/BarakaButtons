@@ -137,7 +137,7 @@ class ApiClient {
 
     static async deleteRoom(roomName: string) {
         const mainUrl = `${this.getBaseUrl()}/api/remove`;
-        const payload = roomName;
+        const payload = { roomName: roomName };
         const response = await axios.post(mainUrl, payload, {
             timeout: this.REQUEST_TIMEOUT
         });
