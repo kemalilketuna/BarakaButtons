@@ -134,6 +134,15 @@ class ApiClient {
         });
         return response.data;
     }
+
+    static async deleteRoom(roomName: string) {
+        const mainUrl = `${this.getBaseUrl()}/api/remove`;
+        const payload = roomName;
+        const response = await axios.post(mainUrl, payload, {
+            timeout: this.REQUEST_TIMEOUT
+        });
+        return response.data;
+    }
 }
 
 export default ApiClient;

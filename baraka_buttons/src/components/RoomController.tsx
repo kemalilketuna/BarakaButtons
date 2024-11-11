@@ -35,6 +35,8 @@ const StartGameWidget = ({ room }: { room: Room }) => {
                 await ApiClient.startGame(room.roomName, playerId, secondPlayerName, secondPlayerSurname, secondPlayerBullet);
             }
             toast.success('Game started successfully');
+            setFirstPlayerBullet(0);
+            setSecondPlayerBullet(0);
         } catch (error) {
             toast.error('Failed to start game');
         }
@@ -44,6 +46,8 @@ const StartGameWidget = ({ room }: { room: Room }) => {
         try {
             await ApiClient.startDuello(room.roomName, firstPlayerName, firstPlayerSurname, firstPlayerBullet, secondPlayerName, secondPlayerSurname, secondPlayerBullet);
             toast.success('Game started successfully');
+            setFirstPlayerBullet(0);
+            setSecondPlayerBullet(0);
         } catch (error) {
             toast.error('Failed to start game');
         }
