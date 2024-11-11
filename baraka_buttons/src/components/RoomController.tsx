@@ -22,10 +22,22 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 const StartGameWidget = ({ room }: { room: Room }) => {
     const [firstPlayerBullet, setFirstPlayerBullet] = useState(0);
     const [secondPlayerBullet, setSecondPlayerBullet] = useState(0);
-    const [firstPlayerName, setFirstPlayerName] = useState('');
-    const [secondPlayerName, setSecondPlayerName] = useState('');
-    const [firstPlayerSurname, setFirstPlayerSurname] = useState('');
-    const [secondPlayerSurname, setSecondPlayerSurname] = useState('');
+    const [firstPlayerName, setFirstPlayerName] = useState(() => {
+        const saved = localStorage.getItem(`${room.roomName}_player1_name`);
+        return saved || '';
+    });
+    const [secondPlayerName, setSecondPlayerName] = useState(() => {
+        const saved = localStorage.getItem(`${room.roomName}_player2_name`);
+        return saved || '';
+    });
+    const [firstPlayerSurname, setFirstPlayerSurname] = useState(() => {
+        const saved = localStorage.getItem(`${room.roomName}_player1_surname`);
+        return saved || '';
+    });
+    const [secondPlayerSurname, setSecondPlayerSurname] = useState(() => {
+        const saved = localStorage.getItem(`${room.roomName}_player2_surname`);
+        return saved || '';
+    });
 
     const startGameRequest = async (playerId: number) => {
         try {
@@ -53,11 +65,31 @@ const StartGameWidget = ({ room }: { room: Room }) => {
         }
     }
 
+    const updateFirstPlayerName = (value: string) => {
+        setFirstPlayerName(value);
+        localStorage.setItem(`${room.roomName}_player1_name`, value);
+    };
+
+    const updateSecondPlayerName = (value: string) => {
+        setSecondPlayerName(value);
+        localStorage.setItem(`${room.roomName}_player2_name`, value);
+    };
+
+    const updateFirstPlayerSurname = (value: string) => {
+        setFirstPlayerSurname(value);
+        localStorage.setItem(`${room.roomName}_player1_surname`, value);
+    };
+
+    const updateSecondPlayerSurname = (value: string) => {
+        setSecondPlayerSurname(value);
+        localStorage.setItem(`${room.roomName}_player2_surname`, value);
+    };
+
     return (
         <Box display="flex" flexDirection="column" width="100%" gap="20px">
             <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
-                <StyledTextField label="Player1 Name" sx={{ width: '30%' }} value={firstPlayerName} onChange={(e) => setFirstPlayerName(e.target.value)} />
-                <StyledTextField label="Player1 Surname" sx={{ width: '30%' }} value={firstPlayerSurname} onChange={(e) => setFirstPlayerSurname(e.target.value)} />
+                <StyledTextField label="Player1 Name" sx={{ width: '30%' }} value={firstPlayerName} onChange={(e) => updateFirstPlayerName(e.target.value)} />
+                <StyledTextField label="Player1 Surname" sx={{ width: '30%' }} value={firstPlayerSurname} onChange={(e) => updateFirstPlayerSurname(e.target.value)} />
                 <StyledTextField
                     label="First Player Bullet"
                     type="number"
@@ -70,8 +102,8 @@ const StartGameWidget = ({ room }: { room: Room }) => {
                 />
             </Box>
             <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
-                <StyledTextField label="Player2 Name" sx={{ width: '30%' }} value={secondPlayerName} onChange={(e) => setSecondPlayerName(e.target.value)} />
-                <StyledTextField label="Player2 Surname" sx={{ width: '30%' }} value={secondPlayerSurname} onChange={(e) => setSecondPlayerSurname(e.target.value)} />
+                <StyledTextField label="Player2 Name" sx={{ width: '30%' }} value={secondPlayerName} onChange={(e) => updateSecondPlayerName(e.target.value)} />
+                <StyledTextField label="Player2 Surname" sx={{ width: '30%' }} value={secondPlayerSurname} onChange={(e) => updateSecondPlayerSurname(e.target.value)} />
                 <StyledTextField
                     label="Second Player Bullet"
                     type="number"
