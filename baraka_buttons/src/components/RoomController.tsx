@@ -10,6 +10,12 @@ interface Room {
     roomIp: string;
 }
 
+interface PlayerData {
+    name: string;
+    surname: string;
+    bullet: number;
+}
+
 const StyledTypography = styled(Typography)(({ theme }) => ({
     fontWeight: 'bold',
     color: theme.palette.error.main,
@@ -18,101 +24,116 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
     marginBottom: '8px',
 }));
 
+const getStoredValue = (roomName: string, key: string) => {
+    return localStorage.getItem(`${roomName}_${key}`) || '';
+};
+
+const setStoredValue = (roomName: string, key: string, value: string) => {
+    localStorage.setItem(`${roomName}_${key}`, value);
+};
 
 const StartGameWidget = ({ room }: { room: Room }) => {
-    const [firstPlayerBullet, setFirstPlayerBullet] = useState(0);
-    const [secondPlayerBullet, setSecondPlayerBullet] = useState(0);
-    const [firstPlayerName, setFirstPlayerName] = useState(() => {
-        const saved = localStorage.getItem(`${room.roomName}_player1_name`);
-        return saved || '';
+    const [player1, setPlayer1] = useState<PlayerData>({
+        name: getStoredValue(room.roomName, 'player1_name'),
+        surname: getStoredValue(room.roomName, 'player1_surname'),
+        bullet: 0
     });
-    const [secondPlayerName, setSecondPlayerName] = useState(() => {
-        const saved = localStorage.getItem(`${room.roomName}_player2_name`);
-        return saved || '';
-    });
-    const [firstPlayerSurname, setFirstPlayerSurname] = useState(() => {
-        const saved = localStorage.getItem(`${room.roomName}_player1_surname`);
-        return saved || '';
-    });
-    const [secondPlayerSurname, setSecondPlayerSurname] = useState(() => {
-        const saved = localStorage.getItem(`${room.roomName}_player2_surname`);
-        return saved || '';
+
+    const [player2, setPlayer2] = useState<PlayerData>({
+        name: getStoredValue(room.roomName, 'player2_name'),
+        surname: getStoredValue(room.roomName, 'player2_surname'),
+        bullet: 0
     });
 
     const startGameRequest = async (playerId: number) => {
         try {
-            if (playerId === 0) {
-                await ApiClient.startGame(room.roomName, playerId, firstPlayerName, firstPlayerSurname, firstPlayerBullet);
-            } else {
-                await ApiClient.startGame(room.roomName, playerId, secondPlayerName, secondPlayerSurname, secondPlayerBullet);
-            }
+            const playerData = playerId === 0 ? player1 : player2;
+            await ApiClient.startGame(
+                room.roomName,
+                playerId,
+                playerData.name,
+                playerData.surname,
+                playerData.bullet
+            );
             toast.success('Game started successfully');
-            setFirstPlayerBullet(0);
-            setSecondPlayerBullet(0);
+            setPlayer1(prev => ({ ...prev, bullet: 0 }));
+            setPlayer2(prev => ({ ...prev, bullet: 0 }));
         } catch (error) {
             toast.error('Failed to start game');
         }
-    }
+    };
 
     const startDuelloRequest = async () => {
         try {
-            await ApiClient.startDuello(room.roomName, firstPlayerName, firstPlayerSurname, firstPlayerBullet, secondPlayerName, secondPlayerSurname, secondPlayerBullet);
+            await ApiClient.startDuello(
+                room.roomName,
+                player1.name,
+                player1.surname,
+                player1.bullet,
+                player2.name,
+                player2.surname,
+                player2.bullet
+            );
             toast.success('Game started successfully');
-            setFirstPlayerBullet(0);
-            setSecondPlayerBullet(0);
+            setPlayer1(prev => ({ ...prev, bullet: 0 }));
+            setPlayer2(prev => ({ ...prev, bullet: 0 }));
         } catch (error) {
             toast.error('Failed to start game');
         }
-    }
-
-    const updateFirstPlayerName = (value: string) => {
-        setFirstPlayerName(value);
-        localStorage.setItem(`${room.roomName}_player1_name`, value);
     };
 
-    const updateSecondPlayerName = (value: string) => {
-        setSecondPlayerName(value);
-        localStorage.setItem(`${room.roomName}_player2_name`, value);
+    const updatePlayerName = (playerId: number, key: string, value: string) => {
+        if (playerId === 0) {
+            setPlayer1(prev => ({ ...prev, [key]: value }));
+            setStoredValue(room.roomName, `player1_${key}`, value);
+        } else {
+            setPlayer2(prev => ({ ...prev, [key]: value }));
+            setStoredValue(room.roomName, `player2_${key}`, value);
+        }
     };
 
-    const updateFirstPlayerSurname = (value: string) => {
-        setFirstPlayerSurname(value);
-        localStorage.setItem(`${room.roomName}_player1_surname`, value);
+    const updatePlayerSurname = (playerId: number, key: string, value: string) => {
+        if (playerId === 0) {
+            setPlayer1(prev => ({ ...prev, [key]: value }));
+            setStoredValue(room.roomName, `player1_${key}`, value);
+        } else {
+            setPlayer2(prev => ({ ...prev, [key]: value }));
+            setStoredValue(room.roomName, `player2_${key}`, value);
+        }
     };
 
-    const updateSecondPlayerSurname = (value: string) => {
-        setSecondPlayerSurname(value);
-        localStorage.setItem(`${room.roomName}_player2_surname`, value);
+    const updatePlayerBullet = (playerId: number, key: string, value: string) => {
+        if (playerId === 0) {
+            setPlayer1(prev => ({ ...prev, [key]: parseInt(value) || 0 }));
+            setStoredValue(room.roomName, `player1_${key}`, value);
+        } else {
+            setPlayer2(prev => ({ ...prev, [key]: parseInt(value) || 0 }));
+            setStoredValue(room.roomName, `player2_${key}`, value);
+        }
     };
 
     return (
         <Box display="flex" flexDirection="column" width="100%" gap="20px">
             <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
-                <StyledTextField label="Player1 Name" sx={{ width: '30%' }} value={firstPlayerName} onChange={(e) => updateFirstPlayerName(e.target.value)} />
-                <StyledTextField label="Player1 Surname" sx={{ width: '30%' }} value={firstPlayerSurname} onChange={(e) => updateFirstPlayerSurname(e.target.value)} />
+                <StyledTextField label="Player1 Name" sx={{ width: '30%' }} value={player1.name} onChange={(e) => updatePlayerName(0, 'name', e.target.value)} />
+                <StyledTextField label="Player1 Surname" sx={{ width: '30%' }} value={player1.surname} onChange={(e) => updatePlayerSurname(0, 'surname', e.target.value)} />
                 <StyledTextField
                     label="First Player Bullet"
                     type="number"
                     sx={{ width: '30%' }}
-                    value={firstPlayerBullet}
-                    onChange={(e) => {
-                        const value = Math.max(0, parseInt(e.target.value) || 0);
-                        setFirstPlayerBullet(value);
-                    }}
+                    value={player1.bullet}
+                    onChange={(e) => updatePlayerBullet(0, 'bullet', e.target.value)}
                 />
             </Box>
             <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
-                <StyledTextField label="Player2 Name" sx={{ width: '30%' }} value={secondPlayerName} onChange={(e) => updateSecondPlayerName(e.target.value)} />
-                <StyledTextField label="Player2 Surname" sx={{ width: '30%' }} value={secondPlayerSurname} onChange={(e) => updateSecondPlayerSurname(e.target.value)} />
+                <StyledTextField label="Player2 Name" sx={{ width: '30%' }} value={player2.name} onChange={(e) => updatePlayerName(1, 'name', e.target.value)} />
+                <StyledTextField label="Player2 Surname" sx={{ width: '30%' }} value={player2.surname} onChange={(e) => updatePlayerSurname(1, 'surname', e.target.value)} />
                 <StyledTextField
                     label="Second Player Bullet"
                     type="number"
                     sx={{ width: '30%' }}
-                    value={secondPlayerBullet}
-                    onChange={(e) => {
-                        const value = Math.max(0, parseInt(e.target.value) || 0);
-                        setSecondPlayerBullet(value);
-                    }}
+                    value={player2.bullet}
+                    onChange={(e) => updatePlayerBullet(1, 'bullet', e.target.value)}
                 />
             </Box>
             <Box display="flex" flexDirection="row" width="100%" gap="20px" justifyContent="space-evenly">
@@ -123,7 +144,6 @@ const StartGameWidget = ({ room }: { room: Room }) => {
         </Box>
     );
 }
-
 
 const StopGameWidget = ({ room }: { room: Room }) => {
     const stopGameRequest = async (playerId: number) => {
