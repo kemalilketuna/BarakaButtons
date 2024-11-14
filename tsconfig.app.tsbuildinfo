@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/theme.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/api/apiclient.ts","./src/components/addroombox.tsx","./src/components/mainipfield.tsx","./src/components/roombox.tsx","./src/components/spacer.tsx"],"version":"5.6.3"}
