@@ -6,7 +6,6 @@ const MainIPField = () => {
 
     return <TextField label="Main IP" sx={{
         '& .MuiOutlinedInput-root': {
-            height: '40px',
             '& fieldset': {
                 borderColor: 'primary.main', // Set border color to primary
             },
