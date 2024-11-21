@@ -88,7 +88,7 @@ class ApiClient {
         }
     }
 
-    static async stopRoom(roomName: string, playerId: number) {
+    static async stopPlayer(roomName: string, playerId: number) {
         const mainUrl = `${this.getBaseUrl()}/api/route`;
         const payload = {
             roomName: roomName,
