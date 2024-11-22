@@ -48,10 +48,10 @@ const StartGameWidget = ({ room }: { room: Room }) => {
 
     const startGameRequest = async (playerId: number) => {
         const playerData = playerId === 0 ? player1 : player2;
-        if (playerData.bullet === 0) {
-            toast.error('Player bullet cannot be 0');
-            return;
-        }
+        // if (playerData.bullet === 0) {
+        //     toast.error('Player bullet cannot be 0');
+        //     return;
+        // }
         try {
             await ApiClient.startGame(
                 room.roomName,
@@ -69,10 +69,10 @@ const StartGameWidget = ({ room }: { room: Room }) => {
     };
 
     const startDuelloRequest = async () => {
-        if (player1.bullet === 0 || player2.bullet === 0) {
-            toast.error('No user can have 0 ammo in duel mode');
-            return;
-        }
+        // if (player1.bullet === 0 || player2.bullet === 0) {
+        //     toast.error('No user can have 0 ammo in duel mode');
+        //     return;
+        // }
         try {
             await ApiClient.startDuello(
                 room.roomName,
