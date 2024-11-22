@@ -51,6 +51,9 @@ class ApiClient {
         const response = await axios.post(mainUrl, payload, {
             timeout: this.REQUEST_TIMEOUT
         });
+        if (response.data.responseType === 4) {
+            throw new Error('Cannot start new game');
+        }
         return response.data;
     }
 
@@ -78,14 +81,13 @@ class ApiClient {
                 }
             }
         }
-        try {
-            const response = await axios.post(mainUrl, payload, {
-                timeout: this.REQUEST_TIMEOUT
-            });
-            return response.data;
-        } catch (error) {
-            throw new Error('Failed to start room');
+        const response = await axios.post(mainUrl, payload, {
+            timeout: this.REQUEST_TIMEOUT
+        });
+        if (response.data.responseType === 4) {
+            throw new Error('Cannot start a duellos');
         }
+        return response.data;
     }
 
     static async stopPlayer(roomName: string, playerId: number) {
@@ -103,6 +105,9 @@ class ApiClient {
         const response = await axios.post(mainUrl, payload, {
             timeout: this.REQUEST_TIMEOUT
         });
+        if (response.data.responseType === 4) {
+            throw new Error('Failed to stop game');
+        }
         return response.data;
     }
 

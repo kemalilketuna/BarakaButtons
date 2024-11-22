@@ -153,11 +153,7 @@ const StartGameWidget = ({ room }: { room: Room }) => {
 const StopGameWidget = ({ room }: { room: Room }) => {
     const stopGameRequest = async (playerId: number) => {
         try {
-            const response = await ApiClient.stopPlayer(room.roomName, playerId);
-            if (response.responseType === 4) {
-                toast.error('Failed to stop game');
-                return;
-            }
+            await ApiClient.stopPlayer(room.roomName, playerId);
             toast.success('Game stopped successfully');
         } catch (error) {
             toast.error('Failed to stop game');
