@@ -37,15 +37,16 @@ const MainContent = () => {
     }, [dispatch]);
 
     return (
-        <Box sx={{ padding: '5vw', paddingTop: '2vw', paddingBottom: '2vw', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
+        <Box sx={{ padding: '5vw', paddingTop: '1vh', paddingBottom: '1vh', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'start' }}>
             {/* Title */}
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-                <Typography fontSize="4vw">Baraka Buttons</Typography>
-                <Box sx={{ paddingTop: '1vw', paddingBottom: '1vw' }}>
-                    <MainIPField />
-                </Box>
+            <Box sx={{ position: 'absolute', top: '3vh', right: '2vw' }}>
+                <MainIPField />
             </Box>
+            <Typography fontSize="3rem">Baraka Buttons</Typography>
+
+            {/* Room Buttons */}
             <RoomButtonGroup />
+
             {/* Dashboard */}
             <Box sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '2vw' }}>
                 <Dashboard />
