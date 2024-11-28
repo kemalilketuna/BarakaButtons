@@ -39,11 +39,10 @@ const MainContent = () => {
     return (
         <Box sx={{ padding: '5vw', paddingTop: '1vh', paddingBottom: '1vh', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'start' }}>
             {/* Title */}
-            <Box sx={{ position: 'absolute', top: '3vh', right: '2vw' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: '1vh', marginBottom: '1vh' }}>
+                <Typography fontSize="3rem" sx={{ marginTop: '-0.6rem' }}>Baraka Buttons</Typography>
                 <MainIPField />
             </Box>
-            <Typography fontSize="3rem">Baraka Buttons</Typography>
-
             {/* Room Buttons */}
             <RoomButtonGroup />
 
