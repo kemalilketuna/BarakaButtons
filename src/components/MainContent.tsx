@@ -9,11 +9,24 @@ import { useSelector } from "react-redux";
 import ApiClient from "../api/apiClient";
 import { setRooms } from "../redux/dashboardSlicer";
 import { useDispatch } from "react-redux";
+import { styled } from "@mui/material/styles";
+
 
 interface Room {
     roomName: string;
     roomIp: string;
 }
+
+const MainContentBox = styled(Box)(({ }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    width: '100vw',
+    height: '100vh',
+    padding: '5vw',
+    paddingTop: '1vh',
+    paddingBottom: '1vh',
+}));
 
 const RoomButtonGroup = () => {
     const rooms = useSelector((state: RootState) => state.dashboard.rooms);
@@ -37,7 +50,7 @@ const MainContent = () => {
     }, [dispatch]);
 
     return (
-        <Box sx={{ padding: '5vw', paddingTop: '1vh', paddingBottom: '1vh', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'start' }}>
+        <MainContentBox>
             {/* Title */}
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: '1vh', marginBottom: '1vh' }}>
                 <Typography fontSize="3rem" sx={{ marginTop: '-0.6rem' }}>Baraka Buttons</Typography>
@@ -50,7 +63,7 @@ const MainContent = () => {
             <Box sx={{ display: 'flex', justifyContent: 'center', paddingBottom: '2vw' }}>
                 <Dashboard />
             </Box>
-        </Box >
+        </MainContentBox>
     );
 }
 
