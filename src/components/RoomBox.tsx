@@ -49,11 +49,15 @@ const RoomBox = ({ room }: { room: Room }) => {
         }, 3000);
     };
 
+    const handleTouchStart = handleMouseDown;
+
     const handleMouseUp = () => {
         if (timerRef.current) {
             clearTimeout(timerRef.current);
         }
     };
+
+    const handleTouchEnd = handleMouseUp;
 
     return (
         <StyledRoomContainer
@@ -61,13 +65,15 @@ const RoomBox = ({ room }: { room: Room }) => {
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
             sx={{
                 backgroundColor: selectedRoom === room ? '#0a0a0a' : 'inherit'
             }}
         >
-            <Typography variant="h5">Room:</Typography>
-            <Typography variant="h5">{room.roomName}</Typography>
-            <Typography variant="h5">IP: {lastPartOfIp}</Typography>
+            <Typography variant="h5" sx={{ userSelect: 'none' }}>Room:</Typography>
+            <Typography variant="h5" sx={{ userSelect: 'none' }}>{room.roomName}</Typography>
+            <Typography variant="h5" sx={{ userSelect: 'none' }}>IP: {lastPartOfIp}</Typography>
         </StyledRoomContainer>
     );
 }
