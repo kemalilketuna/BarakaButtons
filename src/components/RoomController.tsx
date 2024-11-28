@@ -25,6 +25,16 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
     marginBottom: '8px',
 }));
 
+const RoomControllerBox = styled(Box)(({ }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    padding: '10px',
+}));
+
 const getStoredValue = (roomName: string, key: string) => {
     return localStorage.getItem(`${roomName}_${key}`) || '';
 };
@@ -207,14 +217,20 @@ const IncreaseBulletWidget = ({ room }: { room: Room }) => {
 
 const RoomController = ({ room }: { room: Room }) => {
     return (
-        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'center', width: '100%', padding: '10px' }}>
-            <StyledTypography variant="h5">Start Game</StyledTypography>
-            <StartGameWidget room={room} />
-            <StyledTypography variant="h5">Stop Game</StyledTypography>
-            <StopGameWidget room={room} />
-            <StyledTypography variant="h5">Increase Bullet</StyledTypography>
-            <IncreaseBulletWidget room={room} />
-        </Box>
+        <RoomControllerBox>
+            <Box sx={{ width: '100%', height: 'fit-content' }}>
+                <StyledTypography variant="h5">Start Game</StyledTypography>
+                <StartGameWidget room={room} />
+            </Box>
+            <Box sx={{ width: '100%', height: 'fit-content' }}>
+                <StyledTypography variant="h5">Stop Game</StyledTypography>
+                <StopGameWidget room={room} />
+            </Box>
+            <Box sx={{ width: '100%', height: 'fit-content' }}>
+                <StyledTypography variant="h5">Increase Bullet</StyledTypography>
+                <IncreaseBulletWidget room={room} />
+            </Box>
+        </RoomControllerBox>
     );
 }
 
