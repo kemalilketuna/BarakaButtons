@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
 interface Room {
     roomName: string;
@@ -7,6 +7,20 @@ interface Room {
 
 class ApiClient {
     private static readonly REQUEST_TIMEOUT = 10000; // 10 seconds
+    private static axiosInstance: AxiosInstance;
+
+    private static getInstance(): AxiosInstance {
+        if (!this.axiosInstance) {
+            this.axiosInstance = axios.create({
+                timeout: this.REQUEST_TIMEOUT,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            });
+        }
+        return this.axiosInstance;
+    }
 
     static getFullIP(ip: string) {
         return `192.168.1.${ip}`;
@@ -26,13 +40,7 @@ class ApiClient {
             roomName: roomName,
             roomIp: this.getFullIP(roomIP)
         }];
-        const response = await axios.post(mainUrl, payload, {
-            timeout: this.REQUEST_TIMEOUT,
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }
-        });
+        const response = await this.getInstance().post(mainUrl, payload);
         return response.data;
     }
 
@@ -48,9 +56,7 @@ class ApiClient {
                 }
             }
         }
-        const response = await axios.post(mainUrl, payload, {
-            timeout: this.REQUEST_TIMEOUT
-        });
+        const response = await this.getInstance().post(mainUrl, payload);
         if (response.data.responseType === 4) {
             throw new Error('Cannot start new game');
         }
@@ -81,9 +87,7 @@ class ApiClient {
                 }
             }
         }
-        const response = await axios.post(mainUrl, payload, {
-            timeout: this.REQUEST_TIMEOUT
-        });
+        const response = await this.getInstance().post(mainUrl, payload);
         if (response.data.responseType === 4) {
             throw new Error('Cannot start a duellos');
         }
@@ -102,9 +106,7 @@ class ApiClient {
                 }
             }
         }
-        const response = await axios.post(mainUrl, payload, {
-            timeout: this.REQUEST_TIMEOUT
-        });
+        const response = await this.getInstance().post(mainUrl, payload);
         if (response.data.responseType === 4) {
             throw new Error('Failed to stop game');
         }
@@ -126,35 +128,27 @@ class ApiClient {
                 }
             }
         }
-        const response = await axios.post(mainUrl, payload, {
-            timeout: this.REQUEST_TIMEOUT
-        });
+        const response = await this.getInstance().post(mainUrl, payload);
         return response.data;
     }
 
     static async getRooms(): Promise<Room[]> {
         const mainUrl = `${this.getBaseUrl()}/api/rooms`;
-        const response = await axios.get(mainUrl, {
-            timeout: this.REQUEST_TIMEOUT
-        });
+        const response = await this.getInstance().get(mainUrl);
         return response.data;
     }
 
     static async deleteRoom(roomName: string) {
         const mainUrl = `${this.getBaseUrl()}/api/remove`;
         const payload = { roomName: roomName };
-        const response = await axios.post(mainUrl, payload, {
-            timeout: this.REQUEST_TIMEOUT
-        });
+        const response = await this.getInstance().post(mainUrl, payload);
         return response.data;
     }
 
     static async getRoomStatus(roomName: string): Promise<number[]> {
         const mainUrl = `${this.getBaseUrl()}/api/route`;
         const payload = { roomName: roomName, body: { command: 3, payload: {} } };
-        const response = await axios.post(mainUrl, payload, {
-            timeout: this.REQUEST_TIMEOUT
-        });
+        const response = await this.getInstance().post(mainUrl, payload);
         return response.data.bulletCount;
     }
 }
