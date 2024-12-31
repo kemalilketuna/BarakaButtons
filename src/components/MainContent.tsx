@@ -6,7 +6,7 @@ import Dashboard from "./Dashboard";
 import MainIPField from "./MainIPField";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
-import ApiClient from "../api/apiClient";
+import ApiClient from "../api";
 import { setRooms } from "../redux/dashboardSlicer";
 import { useDispatch } from "react-redux";
 import { styled } from "@mui/material/styles";

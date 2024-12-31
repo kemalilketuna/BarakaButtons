@@ -2,7 +2,7 @@ import { Box, Button, Typography } from "@mui/material";
 import StyledTextField from "./StyledTextField";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-import ApiClient from "../api/apiClient";
+import ApiClient from "../api";
 import { toast } from "react-toastify";
 import BulletInput from "./BulletKeyboard";
 
